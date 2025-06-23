@@ -76,7 +76,7 @@
 <script>
 import axios from "axios";
 import { useRouter } from "vue-router";
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "ProfilePage",
   data() {
@@ -99,7 +99,7 @@ export default {
   computed: {
     avatarUrl() {
       if (this.user.avatar) {
-        return `http://event-edge-su/storage/${this.user.avatar}`;
+        return `${baseUrl}/storage/${this.user.avatar}`;
       }
       return "https://www.gravatar.com/avatar/?d=mp";
     }
@@ -113,7 +113,7 @@ export default {
         const user = JSON.parse(localStorage.getItem('user'));  
         if (!user || !user.token) return;
 
-        const response = await axios.get("http://event-edge-su/api/my-profile", {
+        const response = await axios.get(`${baseUrl}/api/my-profile`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
 

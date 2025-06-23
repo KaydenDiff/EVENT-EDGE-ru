@@ -74,7 +74,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const stats = ref({
   total_users: 0,
   new_users_this_month: 0,
@@ -116,13 +116,13 @@ const fetchStats = async () => {
     return;
   }
     // Получение данных
-    const overviewResponse = await axios.get("http://event-edge-su/api/admin/stats/overview", {
+    const overviewResponse = await axios.get(`${baseUrl}/api/admin/stats/overview`, {
       headers: {
         Authorization: `Bearer ${user.token}`,
         "Content-Type": "application/json",
       },
     });
-    const tournamentStatsResponse = await axios.get("http://event-edge-su/api/admin/stats/tournaments", {
+    const tournamentStatsResponse = await axios.get(`${baseUrl}/api/admin/stats/tournaments`, {
       headers: {
         Authorization: `Bearer ${user.token}`,
         "Content-Type": "application/json",

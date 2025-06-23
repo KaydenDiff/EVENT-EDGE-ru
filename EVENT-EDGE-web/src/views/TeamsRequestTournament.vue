@@ -23,7 +23,7 @@
   import axios from 'axios';
   import { ref, onMounted } from 'vue';
   import { useRoute } from 'vue-router';
-  
+      const baseUrl = import.meta.env.VITE_API_BASE_URL;
   export default {
     name: 'TournamentRequests',
     setup() {
@@ -37,7 +37,7 @@
         loading.value = true;
         try {
           const user = JSON.parse(localStorage.getItem("user"));
-          const res = await axios.get(`http://event-edge-su/api/admin/tournament/${tournamentId}/requests`, {
+          const res = await axios.get(`${baseUrl}/api/admin/tournament/${tournamentId}/requests`, {
             headers: {
               Authorization: `Bearer ${user.token}`,
             }
@@ -53,7 +53,7 @@
       const acceptRequest = async (id) => {
         try {
           const user = JSON.parse(localStorage.getItem("user"));
-          await axios.post(`http://event-edge-su/api/admin/team-tournament-request/${id}/accept`, {}, {
+          await axios.post(`${baseUrl}/api/admin/team-tournament-request/${id}/accept`, {}, {
             headers: { Authorization: `Bearer ${user.token}` }
           });
           requests.value = requests.value.filter(r => r.id !== id);
@@ -65,7 +65,7 @@
       const rejectRequest = async (id) => {
         try {
           const user = JSON.parse(localStorage.getItem("user"));
-          await axios.post(`http://event-edge-su/api/admin/team-tournament-request/${id}/reject`, {}, {
+          await axios.post(`${baseUrl}/api/admin/team-tournament-request/${id}/reject`, {}, {
             headers: { Authorization: `Bearer ${user.token}` }
           });
           requests.value = requests.value.filter(r => r.id !== id);

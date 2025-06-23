@@ -5,7 +5,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import router from "@/router/index.js";
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth.js";  
-
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const isLoginMode = ref(true); // Добавляем состояние для отслеживания текущего режима
 
 const inputData = reactive({
@@ -79,7 +79,7 @@ const onLogin = async () => {
   errors.data = {};
 
   try {
-    const response = await axios.post("http://event-edge-su/api/login", {
+    const response = await axios.post(`${baseUrl}/api/login`, {
       email: inputData.email,
       password: inputData.password,
       remember_me: inputData.rememberMe
@@ -126,7 +126,7 @@ const onRegister = async () => {
   }
 
   try {
-    const response = await axios.post("http://event-edge-su/api/register", formData, {
+    const response = await axios.post(`${baseUrl}/api/register`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -134,7 +134,7 @@ const onRegister = async () => {
 
     // После успешной регистрации пытаемся войти
     try {
-      const loginResponse = await axios.post("http://event-edge-su/api/login", {
+      const loginResponse = await axios.post(`${baseUrl}/api/login`, {
         email: inputData.email,
         password: inputData.password,
         remember_me: inputData.rememberMe

@@ -134,7 +134,7 @@
 <script setup>
 import { ref, computed, onMounted, watch, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const route = useRoute()
 const router = useRouter()
 const tournaments = ref([])
@@ -171,7 +171,7 @@ const filteredTournaments = computed(() => {
 
 const fetchTournaments = async () => {
   try {
-    const res = await fetch('http://event-edge-su/api/guest/tournaments')
+    const res = await fetch(`${baseUrl}/api/guest/tournaments`)
     tournaments.value = await res.json()
   } catch (e) {
     console.error('Ошибка при загрузке турниров:', e)
@@ -181,7 +181,7 @@ const fetchTournaments = async () => {
 
 const fetchGames = async () => {
   try {
-    const res = await fetch('http://event-edge-su/api/guest/games')
+    const res = await fetch(`${baseUrl}/api/guest/games`)
     const data = await res.json()
     games.value = data
   } catch (e) {
@@ -219,7 +219,7 @@ function formatDate(dateStr) {
 function getAvatarUrl(avatar) {
   if (!avatar) return ''
   if (avatar.startsWith('http')) return avatar
-  return `http://event-edge-su/storage/${avatar}`
+  return `${baseUrl}/storage/${avatar}`
 }
 
 const navigateToTournament = (tournament) => {

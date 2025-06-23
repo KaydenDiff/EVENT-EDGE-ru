@@ -29,7 +29,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const router = useRouter();
 
 const goToCreateTournament = () => {

@@ -91,7 +91,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import BaseButton from "@/components/BaseButton.vue";
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const route = useRoute();
 const router = useRouter();
 
@@ -126,7 +126,7 @@ const getStatusText = (status) => {
 const fetchTournamentDetails = async (tournamentId) => {
   try {
     loading.value = true;
-    const response = await axios.get(`http://event-edge-su/api/guest/tournaments/${tournamentId}`);
+    const response = await axios.get(`${baseUrl}/api/guest/tournaments/${tournamentId}`);
     tournament.value = response.data;
     await fetchTournamentTeams(tournamentId);
   } catch (err) {
@@ -139,7 +139,7 @@ const fetchTournamentDetails = async (tournamentId) => {
 const fetchTournamentTeams = async (tournamentId) => {
   try {
     loadingTeams.value = true;
-    const response = await axios.get(`http://event-edge-su/api/guest/tournaments/${tournamentId}/teams`);
+    const response = await axios.get(`${baseUrl}/api/guest/tournaments/${tournamentId}/teams`);
     teams.value = response.data.teams || [];
   } catch (err) {
     teamsError.value = "Ошибка загрузки списка команд. Попробуйте позже.";

@@ -27,11 +27,14 @@ const error = ref(null);
 const totalTournaments = ref(0);
 const totalPlayers = ref(0);
 const totalMatches = ref(0);
-
+   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const fetchPopularTournaments = async () => {
   try {
-    const response = await fetch("http://event-edge-su/api/guest/popular-tournaments");
+
+    const response = await fetch(`${baseUrl}/api/guest/popular-tournaments`);
+
     if (!response.ok) throw new Error("Ошибка загрузки данных");
+
     const data = await response.json();
     popularTournaments.value = data.map(tournament => ({
       ...tournament,
@@ -46,7 +49,7 @@ const fetchPopularTournaments = async () => {
 
 const fetchStatistics = async () => {
   try {
-    const response = await fetch("http://event-edge-su/api/guest/statistics");
+    const response = await fetch(`${baseUrl}/api/guest/statistics`);
     if (!response.ok) throw new Error("Ошибка загрузки статистики");
     const data = await response.json();
     totalTournaments.value = data.tournaments_count;
@@ -59,7 +62,7 @@ const fetchStatistics = async () => {
 
 const fetchTournaments = async () => {
   try {
-    const response = await fetch("http://event-edge-su/api/guest/tournaments");
+    const response = await fetch(`${baseUrl}/api/guest/tournaments`);
     if (!response.ok) throw new Error("Ошибка загрузки данных");
     const data = await response.json();
 

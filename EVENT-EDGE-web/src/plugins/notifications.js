@@ -1,6 +1,6 @@
 // notifications.js - централизованный плагин для управления уведомлениями
 import axios from 'axios';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   install(app) {
     // Создаем глобальную шину событий для уведомлений
@@ -52,7 +52,7 @@ export default {
           console.log(`Отправка уведомления на: ${endpoint}`);
           console.log('Данные:', data);
           
-          const response = await axios.post(`http://event-edge-su/api${endpoint}`, data, {
+          const response = await axios.post(`${baseUrl}/api${endpoint}`, data, {
             headers: {
               'Authorization': `Bearer ${user.token}`,
               'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ export default {
           }
           
           
-          const response = await axios.get(`http://event-edge-su/api/${endpoint}`, {
+          const response = await axios.get(`${baseUrl}/api/${endpoint}`, {
             headers: {
               'Authorization': `Bearer ${user.token}`,
               'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ export default {
             return { success: false, error: 'Необходима авторизация' };
           }
           
-          const response = await axios.post(`http://event-edge-su/api/user/notifications/${notificationId}/read`, {}, {
+          const response = await axios.post(`${baseUrl}/api/user/notifications/${notificationId}/read`, {}, {
             headers: {
               'Authorization': `Bearer ${user.token}`,
               'Content-Type': 'application/json'
@@ -161,7 +161,7 @@ export default {
             return { success: false, error: 'Необходима авторизация' };
           }
           
-          const response = await axios.get(`http://event-edge-su/api/notifications/unread`, {
+          const response = await axios.get(`${baseUrl}/api/notifications/unread`, {
             headers: {
               'Authorization': `Bearer ${user.token}`,
               'Content-Type': 'application/json'

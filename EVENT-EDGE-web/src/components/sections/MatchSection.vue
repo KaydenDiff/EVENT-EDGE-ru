@@ -44,7 +44,7 @@
   import BaseButton from '@/components/BaseButton.vue';
   import MatchCard from '@/components/MatchCard.vue';
   import MatchForm from '@/components/form/MatchForm.vue';
-  
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   export default {
     name: 'MatchSection',
     components: {
@@ -81,7 +81,7 @@
       },
       async fetchTeams() {
   try {
-    const res = await fetch('http://event-edge-su/api/guest/teams');
+    const res = await fetch(`${baseUrl}/api/guest/teams`);
     const result = await res.json(); // Предположим, что это объект с сообщением и массивом
     this.teams = result.data; // Извлекаем массив команд из объекта
   } catch (e) {
@@ -90,7 +90,7 @@
 },
       async fetchTournaments() {
         try {
-          const res = await fetch('http://event-edge-su/api/guest/tournaments');
+          const res = await fetch(`${baseUrl}/api/guest/tournaments`);
           this.tournaments = await res.json();
         } catch (e) {
           console.error('Ошибка загрузки турниров:', e);
@@ -98,7 +98,7 @@
       },
       async fetchStages() {
         try {
-          const res = await fetch('http://event-edge-su/api/guest/stages');
+          const res = await fetch(`${baseUrl}/api/guest/stages`);
           this.stages = await res.json();
         } catch (e) {
           console.error('Ошибка загрузки стадий:', e);
@@ -106,7 +106,7 @@
       },
       async fetchMatches() {
         try {
-          const res = await fetch('http://event-edge-su/api/guest/game-matches');
+          const res = await fetch(`${baseUrl}/api/guest/game-matches`);
           this.matches = await res.json();
         } catch (e) {
           console.error('Ошибка загрузки матчей:', e);
@@ -120,7 +120,7 @@
         
         const fetchPromises = uniqueTournamentIds.map(async (tournamentId) => {
           try {
-            const response = await fetch(`http://event-edge-su/api/guest/tournaments/${tournamentId}/basket`, {
+            const response = await fetch(`${baseUrl}/api/guest/tournaments/${tournamentId}/basket`, {
               headers: {
                 'Authorization': `Bearer ${user.token}`
               }

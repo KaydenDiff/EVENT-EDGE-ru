@@ -53,7 +53,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const route = useRoute()
 const router = useRouter();
 const team = ref({})
@@ -62,14 +62,14 @@ const tournaments = ref([])
 const fetchTeamDetails = async () => {
   const teamId = route.params.id; // Предполагаем, что ID команды передается через параметры маршрута
   try {
-    const res = await fetch(`http://event-edge-su/api/guest/teams/${teamId}`);
+    const res = await fetch(`${baseUrl}/api/guest/teams/${teamId}`);
     const data = await res.json();
     
     // Извлекаем данные о команде
     team.value = data.data; // Сохраняем данные о команде
 
     // Загрузка участников команды
-    const membersRes = await fetch(`http://event-edge-su/api/guest/teams/${teamId}/members`);
+    const membersRes = await fetch(`${baseUrl}/api/guest/teams/${teamId}/members`);
     const membersData = await membersRes.json();
     
     // Извлекаем участников из ответа
@@ -80,7 +80,7 @@ const fetchTeamDetails = async () => {
     }
 
     // Загрузка турниров, в которых участвовала команда
-    const tournamentsRes = await fetch(`http://event-edge-su/api/guest/teams/${teamId}/tournaments`);
+    const tournamentsRes = await fetch(`${baseUrl}/api/guest/teams/${teamId}/tournaments`);
     const tournamentsData = await tournamentsRes.json();
     tournaments.value = tournamentsData.data;
   } catch (e) {

@@ -130,7 +130,7 @@ import axios from 'axios'
 import BaseButton from '@/components/BaseButton.vue'
 import TournamentForm from '@/components/form/TournamentForm.vue'
 import TournamentCard from '@/components/TournamentCard.vue'
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'TournamentsSection',
   components: {
@@ -159,7 +159,7 @@ export default {
     const tournamentToDelete = ref(null)
     const searchQuery = ref('')
     const editingTournament = ref(null)
-
+ const baseUrl = import.meta.env.VITE_API_BASE_URL;
     // Вычисляемое свойство для активных команд
     const activeTeams = computed(() => {
       return teams.value.filter(team => team.status === 'active')
@@ -171,7 +171,7 @@ export default {
         loadingRequests.value = true
         errorRequests.value = null
         const user = JSON.parse(localStorage.getItem('user'))
-        const response = await axios.get('http://event-edge-su/api/admin/tournament-requests/list', {
+        const response = await axios.get(`${baseUrl}/api/admin/tournament-requests/list`, {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
@@ -190,7 +190,7 @@ export default {
       try {
         const user = JSON.parse(localStorage.getItem('user'))
         const response = await axios.post(
-          `http://event-edge-su/api/admin/tournament-request/${requestId}/accept`,
+          `${baseUrl}/api/admin/tournament-request/${requestId}/accept`,
           {},
           {
             headers: {
@@ -216,7 +216,7 @@ export default {
       try {
         const user = JSON.parse(localStorage.getItem('user'))
         const response = await axios.post(
-          `http://event-edge-su/api/admin/tournament-request/${requestId}/reject`,
+         `${baseUrl}/api/admin/tournament-request/${requestId}/reject`,
           {},
           {
             headers: {
@@ -256,7 +256,7 @@ export default {
     const fetchTeams = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user'))
-        const response = await axios.get('http://event-edge-su/api/guest/teams', {
+        const response = await axios.get(`${baseUrl}/api/guest/teams`, {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
@@ -272,7 +272,7 @@ export default {
     const fetchGames = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user'))
-        const response = await axios.get('http://event-edge-su/api/guest/games', {
+        const response = await axios.get(`${baseUrl}/api/guest/games`, {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
@@ -288,7 +288,7 @@ export default {
     const fetchStages = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user'))
-        const response = await axios.get('http://event-edge-su/api/guest/stage-type', {
+        const response = await axios.get(`${baseUrl}/api/guest/stage-type`, {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
@@ -305,7 +305,7 @@ export default {
       try {
         loading.value = true
         const user = JSON.parse(localStorage.getItem('user'))
-        const response = await axios.get('http://event-edge-su/api/guest/tournaments', {
+        const response = await axios.get(`${baseUrl}/api/guest/tournaments`, {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
@@ -331,7 +331,7 @@ export default {
       try {
         error.value = null
         const user = JSON.parse(localStorage.getItem('user'))
-        const response = await axios.get(`http://event-edge-su/api/guest/tournaments/${tournamentId}`, {
+        const response = await axios.get(`${baseUrl}/api/guest/tournaments/${tournamentId}`, {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
@@ -381,8 +381,8 @@ export default {
 
           // URL-эндпоинт в зависимости от операции
           const url = isUpdate 
-            ? `http://event-edge-su/api/admin/tournaments/update/${formData.id}`
-            : 'http://event-edge-su/api/admin/tournaments/create'
+            ? `${baseUrl}/api/admin/tournaments/update/${formData.id}`
+            : `${baseUrl}/api/admin/tournaments/create`
           
           const response = await axios.post(
             url, 
@@ -421,7 +421,7 @@ export default {
         if (!user?.token) throw new Error('Требуется авторизация')
 
         const response = await axios.delete(
-          `http://event-edge-su/api/admin/tournaments/delete/${tournamentToDelete.value.id}`,
+         `${baseUrl}/api/admin/tournaments/delete/${tournamentToDelete.value.id}`,
           {
             headers: {
               'Authorization': `Bearer ${user.token}`
@@ -532,6 +532,7 @@ export default {
       approveRequest,
       rejectRequest,
       formatDate,
+      baseUrl,
       getStatusText
     }
   }

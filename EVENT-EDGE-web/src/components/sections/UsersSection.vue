@@ -70,7 +70,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import BaseButton from '@/components/BaseButton.vue'
 import UserForm from '@/components/form/UserForm.vue'
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'UsersSection',
   components: {
@@ -97,7 +97,7 @@ export default {
       try {
         loading.value = true
         const user = JSON.parse(localStorage.getItem('user'))
-        const response = await axios.get('http://event-edge-su/api/admin/users', {
+        const response = await axios.get(`${baseUrl}/api/admin/users`, {
           headers: {
             'Authorization': `Bearer ${user.token}`
           }
@@ -141,7 +141,7 @@ export default {
         if (isEditing && userId) {
           // Обновление существующего пользователя
           response = await axios.post(
-            `http://event-edge-su/api/admin/users/update/${userId}`,
+           `${baseUrl}/api/admin/users/update/${userId}`,
             requestData,
             {
               headers: { 
@@ -154,7 +154,7 @@ export default {
         } else {
           // Создание нового пользователя
           response = await axios.post(
-            'http://event-edge-su/api/admin/users/create',
+           `${baseUrl}/api/admin/users/create`,
             requestData,
             {
               headers: { 
@@ -202,7 +202,7 @@ export default {
           throw new Error('ID пользователя не найден')
         }
 
-        await axios.delete(`http://event-edge-su/api/admin/users/delete/${userIdToDelete}`, {
+        await axios.delete(`${baseUrl}/api/admin/users/delete/${userIdToDelete}`, {
           headers: { Authorization: `Bearer ${user.token}` }
         })
 

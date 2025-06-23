@@ -129,7 +129,7 @@
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth.js";
 import BaseButton from "@/components/BaseButton.vue";
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "CreateTournamentPage",
   components: {
@@ -190,8 +190,8 @@ export default {
         const token = userData.token;
 
         const [gamesRes, stagesRes] = await Promise.all([
-          axios.get("http://event-edge-su/api/guest/games"),
-          axios.get("http://event-edge-su/api/guest/stage-type"),
+          axios.get(`${baseUrl}/api/guest/games`),
+          axios.get(`${baseUrl}/api/guest/stage-type`),
         ]);
 
         this.games = gamesRes.data;
@@ -307,7 +307,7 @@ export default {
         }
 
         await axios.post(
-          `http://event-edge-su/api/tournament-request-${routePrefix}`,
+         `${baseUrl}/api/tournament-request-${routePrefix}`,
           formData,
           { 
             headers: { 

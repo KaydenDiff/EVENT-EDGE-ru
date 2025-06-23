@@ -174,7 +174,7 @@ import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import NewsSection from '@/components/sections/NewsSection.vue';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   name: 'AdminPanel',
@@ -278,7 +278,7 @@ export default {
   methods: {
     async fetchTournaments() {
       try {
-        const response = await fetch('http://event-edge-su/api/guest/tournaments');
+        const response = await fetch(`${baseUrl}/api/guest/tournaments`);
         const data = await response.json();
         this.tournaments = data;
       } catch (error) {
@@ -296,7 +296,7 @@ export default {
       }
 
       try {
-        const response = await fetch(`http://event-edge-su/api/admin/tournaments/delete/${id}`, {
+        const response = await fetch(`${baseUrl}/api/admin/tournaments/delete/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${user.token}`,
@@ -321,7 +321,7 @@ export default {
 
     async fetchTeams() {
       try {
-        const response = await fetch('http://event-edge-su/api/guest/teams');
+        const response = await fetch(`${baseUrl}api/guest/teams`);
         const data = await response.json();
         this.teams = data;
       } catch (error) {
@@ -331,7 +331,7 @@ export default {
 
     async fetchStages() {
       try {
-        const response = await fetch('http://event-edge-su/api/guest/stages');
+        const response = await fetch(`${baseUrl}/api/guest/stages`);
         const data = await response.json();
         this.stages = data;
       } catch (error) {

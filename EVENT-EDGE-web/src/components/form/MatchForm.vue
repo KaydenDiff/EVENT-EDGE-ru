@@ -102,7 +102,7 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import axios from 'axios'
 import BaseButton from '@/components/BaseButton.vue'
-
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'MatchForm',
   components: {
@@ -239,7 +239,7 @@ const updateTeamName = (teamField) => {
     loading.value = true
     const user = JSON.parse(localStorage.getItem('user'))
     const response = await axios.get(
-      `http://event-edge-su/api/guest/tournaments/${tournamentId}/teams`,
+     `${baseUrl}/api/guest/tournaments/${tournamentId}/teams`,
       {
         headers: {
           Authorization: `Bearer ${user?.token || ''}`
@@ -277,7 +277,7 @@ const fetchMatchData = async () => {
     error.value = null
     validationErrors.value = {}
     
-    const response = await axios.get(`http://event-edge-su/api/guest/game-matches/${props.matchId}`)
+    const response = await axios.get(`${baseUrl}/api/guest/game-matches/${props.matchId}`)
     const matchData = response.data
     
     // Format date for datetime-local input
@@ -314,8 +314,8 @@ const fetchMatchData = async () => {
         
         // Fetch tournaments and stages in parallel
         const [tournamentsResponse, stagesResponse] = await Promise.all([
-          axios.get('http://event-edge-su/api/guest/tournaments'),
-          axios.get('http://event-edge-su/api/guest/stages')
+          axios.get(`${baseUrl}/api/guest/tournaments`),
+          axios.get(`${baseUrl}/api/guest/stages`)
         ])
         
         tournaments.value = tournamentsResponse.data
@@ -366,7 +366,7 @@ const fetchMatchData = async () => {
           }
           
           await axios.post(
-            'http://event-edge-su/api/admin/game-matches/create',
+            `${baseUrl}/api/admin/game-matches/create`,
             payload,
             {
               headers: {
@@ -386,7 +386,7 @@ const fetchMatchData = async () => {
           }
           
           await axios.post(
-            `http://event-edge-su/api/admin/game-matches/update/${props.matchId}`,
+            `${baseUrl}/api/admin/game-matches/update/${props.matchId}`,
             payload,
             {
               headers: {

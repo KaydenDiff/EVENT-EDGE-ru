@@ -1,6 +1,6 @@
 <script setup>
 import {reactive, ref} from "vue";
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 import Form from "@/components/Form.vue";
 import FormItem from "@/components/FormItem.vue";
 import BaseButton from "@/components/BaseButton.vue";
@@ -32,7 +32,7 @@ const errors = reactive({
 // Function to login after successful registration
 const loginAfterRegistration = async (email, password) => {
   try {
-    const response = await axios.post("http://event-edge-su/api/login", {
+    const response = await axios.post(`${baseUrl}/api/login`, {
       email,
       password
     });
@@ -66,12 +66,11 @@ const onSubmit = async () => {
   }
 
   try {
-    const response = await axios.post("http://event-edge-su/api/register", formData, {
+    const response = await axios.post(`${baseUrl}/api/register`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     });
-
     if (response.data?.success) {
       await loginAfterRegistration(inputData.email, inputData.password);
     } else {

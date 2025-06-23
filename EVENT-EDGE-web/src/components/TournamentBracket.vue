@@ -31,7 +31,7 @@
 </template>
 <script>
 import axios from "axios";
-
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   props: {
     tournamentId: {
@@ -59,9 +59,10 @@ export default {
     }
   },
   methods: {
+    
     async fetchTournamentData() {
       try {
-        const response = await axios.get(`http://event-edge-su/api/guest/tournaments/${this.selectedTournamentId}`);
+        const response = await axios.get(`${baseUrl}/api/guest/tournaments/${this.selectedTournamentId}`);
         const tournament = response.data;
         this.selectedTournamentName = tournament.name;
         const currentStage = tournament.stage;
@@ -83,7 +84,7 @@ export default {
     async fetchBracket() {
       if (!this.selectedTournamentId) return;
       try {
-        const response = await axios.get(`http://event-edge-su/api/guest/tournaments/${this.selectedTournamentId}/basket`);
+        const response = await axios.get(`${baseUrl}/api/guest/tournaments/${this.selectedTournamentId}/basket`);
         this.stages = this.createBracket(response.data);
       } catch (error) {
         console.error("Ошибка загрузки сетки:", error);

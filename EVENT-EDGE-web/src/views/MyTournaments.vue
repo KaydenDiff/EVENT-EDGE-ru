@@ -81,7 +81,7 @@
 import axios from 'axios';
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "MyTournaments",
   setup() {
@@ -116,7 +116,7 @@ export default {
           return;
         }
 
-        const response = await axios.get('http://event-edge-su/api/my-tournaments', {
+        const response = await axios.get(`${baseUrl}/api/my-tournaments`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           }

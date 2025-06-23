@@ -66,7 +66,7 @@
   import BaseButton from '@/components/BaseButton.vue';
   import axios from 'axios';
   import { useAuthStore } from '@/stores/auth.js';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'MatchCard',
   emits: ['match-added', 'match-deleted', 'edit-match'],
@@ -174,7 +174,7 @@ export default {
         const token = authStore.user?.token;
 
         const response = await axios.get(
-          `http://event-edge-su/api/guest/tournaments/${this.match.tournament_id}/basket`,
+          `${baseUrl}/api/guest/tournaments/${this.match.tournament_id}/basket`,
           {
             headers: { 
               'Authorization': `Bearer ${token}`
@@ -221,7 +221,7 @@ export default {
           status: 'in_progress'
         };
 
-        await axios.post('http://event-edge-su/api/admin/tournaments/add-match', 
+        await axios.post(`${baseUrl}/api/admin/tournaments/add-match`, 
           matchData,
           {
             headers: { 
@@ -291,7 +291,7 @@ export default {
         console.log("Отправляемые данные:", requestData);
 
         const response = await axios.post(
-          "http://event-edge-su/api/admin/basket/update",
+          `${baseUrl}/api/admin/basket/update`,
           requestData,
           {
             headers: {
@@ -381,7 +381,7 @@ export default {
         }
 
         const response = await axios.post(
-          "http://event-edge-su/api/admin/basket/create-stage",
+        `${baseUrl}/api/admin/basket/create-stage`,
           nextStageData,
           {
             headers: {
@@ -466,7 +466,7 @@ export default {
       try {
         if (!tournamentId) return;
         
-        const res = await fetch(`http://event-edge-su/api/guest/tournaments/${tournamentId}/teams`);
+        const res = await fetch(`${baseUrl}/api/guest/tournaments/${tournamentId}/teams`);
         if (!res.ok) throw new Error('Ошибка загрузки команд');
         
         const data = await res.json();
@@ -482,7 +482,7 @@ export default {
       if (!user || !user.token) return;
   
       try {
-        const res = await fetch(`http://event-edge-su/api/admin/game-matches/delete/${this.matchToDelete.id}`, {
+        const res = await fetch(`${baseUrl}/api/admin/game-matches/delete/${this.matchToDelete.id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${user.token}`,

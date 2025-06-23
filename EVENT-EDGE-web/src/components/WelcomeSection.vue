@@ -39,11 +39,11 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
 import 'swiper/css/navigation'
 
-const apiUrl = 'http://event-edge-su'
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const games = ref([])
 
 onMounted(async () => {
-  const res = await fetch(`${apiUrl}/api/guest/games`)
+  const res = await fetch(`${baseUrl}/api/guest/games`)
   games.value = await res.json()
 })
 </script>

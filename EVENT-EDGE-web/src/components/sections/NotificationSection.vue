@@ -174,13 +174,14 @@
 import { ref, computed, inject } from 'vue';
 import axios from 'axios';
 import BaseButton from '@/components/BaseButton.vue';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'NotificationSection',
   components: {
     BaseButton
   },
   setup() {
+     const baseUrl = import.meta.env.VITE_API_BASE_URL;
     // Инжектим сервис уведомлений из плагина
     const notificationsService = inject('notifications');
     return { notificationsService };
@@ -201,6 +202,7 @@ export default {
     };
   },
   computed: {
+    
     showTournamentSelect() {
       return ['tournament-start', 'next-stage', 'team-elimination', 'team-registration-accept'].includes(this.selectedNotificationType);
     },
@@ -234,6 +236,7 @@ export default {
     }
   },
   methods: {
+    
     async fetchTournaments() {
       try {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -242,7 +245,7 @@ export default {
           return;
         }
         
-        const response = await axios.get('http://event-edge-su/api/guest/tournaments', {
+        const response = await axios.get(`${baseUrl}/api/guest/tournaments`, {
           headers: {
             'Authorization': `Bearer ${user.token}`,
             'Content-Type': 'application/json'
@@ -257,7 +260,7 @@ export default {
     },
     async fetchTeams() {
       try {
-        const response = await fetch('http://event-edge-su/api/guest/teams');
+        const response = await fetch(`${baseUrl}/api/guest/teams`);
         this.teams = await response.json();
       } catch (error) {
         console.error('Ошибка загрузки команд:', error);
@@ -265,7 +268,7 @@ export default {
     },
     async fetchStages() {
       try {
-        const response = await fetch('http://event-edge-su/api/guest/stages');
+        const response = await fetch(`${baseUrl}/api/guest/stages`);
         this.stages = await response.json();
       } catch (error) {
         console.error('Ошибка загрузки этапов:', error);
@@ -273,7 +276,7 @@ export default {
     },
     async fetchMatches() {
       try {
-        const response = await fetch('http://event-edge-su/api/guest/game-matches');
+        const response = await fetch(`${baseUrl}/api/guest/game-matches`);
         const data = await response.json();
         this.matches = data.map(match => {
           const tournament = this.tournaments.find(t => t.id === match.tournament_id);
@@ -307,7 +310,7 @@ export default {
       }
 
       try {
-        const response = await fetch(`http://event-edge-su/api/guest/tournaments/${this.selectedTournamentId}/teams`);
+        const response = await fetch(`${baseUrl}/api/guest/tournaments/${this.selectedTournamentId}/teams`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

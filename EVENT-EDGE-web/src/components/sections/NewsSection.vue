@@ -68,7 +68,7 @@
   import axios from 'axios'
   import BaseButton from '@/components/BaseButton.vue'
   import NewsForm from '@/components/form/NewsForm.vue'
-  
+   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   export default {
     name: 'NewsSection',
     components: {
@@ -91,7 +91,7 @@
       const fetchNews = async () => {
         try {
           loading.value = true
-          const response = await axios.get('http://event-edge-su/api/guest/news-feeds')
+          const response = await axios.get(`${baseUrl}/api/guest/news-feeds`)
           news.value = response.data
         } catch (err) {
           error.value = 'Ошибка при загрузке новостей'
@@ -115,8 +115,8 @@
   
         try {
           const url = editingNews.value 
-            ? `http://event-edge-su/api/admin/news-feeds/update/${editingNews.value.id}` 
-            : 'http://event-edge-su/api/admin/news-feeds/create'
+            ? `${baseUrl}/api/admin/news-feeds/update/${editingNews.value.id}` 
+            : `${baseUrl}/api/admin/news-feeds/create`
           
           const user = JSON.parse(localStorage.getItem('user'))
           const token = user ? user.token : null
@@ -155,7 +155,7 @@
     const user = JSON.parse(localStorage.getItem('user'))
     if (!user?.token) throw new Error('Требуется авторизация')
 
-    const response = await axios.delete(`http://event-edge-su/api/admin/news-feeds/delete/${newsToDelete.value.id}`,
+    const response = await axios.delete(`${baseUrl}/api/admin/news-feeds/delete/${newsToDelete.value.id}`,
       {
         headers: {
           'Authorization': `Bearer ${user.token}`

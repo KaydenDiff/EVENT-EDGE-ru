@@ -76,7 +76,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const router = useRouter();
 const teams = ref([])
 const userTeam = ref(null)
@@ -84,7 +84,7 @@ const userTeam = ref(null)
 // Загрузка команд
 const fetchTeams = async () => {
   try {
-    const res = await fetch('http://event-edge-su/api/guest/teams')
+    const res = await fetch(`${baseUrl}/api/guest/teams`)
     const data = await res.json()
     teams.value = data.data.map(team => ({
       ...team,
@@ -104,7 +104,7 @@ const goToTeamDetails = (teamId) => {
 // Загрузка участников команды
 const loadTeamMembers = async (teamId) => {
   try {
-    const res = await fetch(`http://event-edge-su/api/guest/teams/${teamId}/members`)
+    const res = await fetch(`${baseUrl}/api/guest/teams/${teamId}/members`)
     const data = await res.json()
 
     // Проверяем структуру ответа и извлекаем участников
@@ -130,7 +130,7 @@ const fetchUserProfile = async () => {
       return;
     }
 
-    const res = await fetch('http://event-edge-su/api/my-profile', {
+    const res = await fetch(`${baseUrl}/api/my-profile`, {
       headers: {
         'Authorization': `Bearer ${user.token}`
       }

@@ -33,6 +33,7 @@
   <script>
   export default {
     name: 'MatchResult',
+    
     props: ['matchId', 'tournamentId', 'team1Id', 'team2Id'],
     data() {
       return {
@@ -51,7 +52,7 @@
         if (!date) {
           return 'Дата не доступна'; // Возвращаем дефолтное сообщение, если дата не определена
         }
-  
+   const baseUrl = import.meta.env.VITE_API_BASE_URL;
         const parsedDate = new Date(date.replace(' ', 'T')); // Преобразуем строку в объект Date
   
         if (isNaN(parsedDate)) {
@@ -71,7 +72,7 @@
       },
       async fetchMatchDetails() {
         try {
-          const response = await fetch(`http://event-edge-su/api/guest/game-matches/${this.matchId}`);
+          const response = await fetch(`${baseUrl}/api/guest/game-matches/${this.matchId}`);
           if (!response.ok) {
             throw new Error(`Ошибка HTTP: ${response.status}`);
           }
@@ -87,7 +88,7 @@
           this.matchDate = data.match_date;  // Сохраняем в data переменную matchDate
   
           // Получаем название стадии
-          const stageResponse = await fetch(`http://event-edge-su/api/guest/stages/${data.stage_id}`);
+          const stageResponse = await fetch(`${baseUrl}/api/guest/stages/${data.stage_id}`);
           if (!stageResponse.ok) {
             throw new Error(`Ошибка при загрузке данных стадии: ${stageResponse.status}`);
           }
@@ -100,7 +101,7 @@
       },
       async fetchTournamentName(tournamentId) {
         try {
-          const response = await fetch(`http://event-edge-su/api/guest/tournaments/${tournamentId}`);
+          const response = await fetch(`${baseUrl}/api/guest/tournaments/${tournamentId}`);
           const data = await response.json();
           return data.name;
         } catch (error) {
@@ -122,7 +123,7 @@
         console.log('winnerTeamId:', this.winnerTeamId, typeof this.winnerTeamId);
   
         try {
-          const response = await fetch(`http://event-edge-su/api/admin/game-matches/update/${this.matchId}`, {
+          const response = await fetch(`${baseUrl}/api/admin/game-matches/update/${this.matchId}`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${user.token}`,

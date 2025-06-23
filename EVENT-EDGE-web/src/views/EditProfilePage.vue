@@ -60,6 +60,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 import BaseButton from "@/components/BaseButton.vue";
 import { VTooltip } from 'v-tooltip';
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "EditProfilePage",
   components: { BaseButton },
@@ -93,7 +94,7 @@ export default {
       try {
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user || !user.token) return;
-        const response = await axios.get("http://event-edge-su/api/my-profile", {
+        const response = await axios.get(`${baseUrl}/api/my-profile`, {
           headers: {'Authorization': `Bearer ${user.token}`}
         });
 
@@ -181,7 +182,7 @@ export default {
           return;
         }
 
-        await axios.post("http://event-edge-su/api/profile/update", formData, {
+        await axios.post(`${baseUrl}/api/profile/update`, formData, {
           headers: {
             Authorization: `Bearer ${user.token}`,
             "Content-Type": "multipart/form-data"

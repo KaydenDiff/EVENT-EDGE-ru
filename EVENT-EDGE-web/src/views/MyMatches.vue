@@ -58,7 +58,7 @@
 import axios from 'axios';
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "MyMatches",
   setup() {
@@ -94,7 +94,7 @@ export default {
           console.error("Токен не найден");
           return;
         }
-        const response = await axios.get('http://event-edge-su/api/my-matches', {
+        const response = await axios.get(`${baseUrl}/api/my-matches`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           }

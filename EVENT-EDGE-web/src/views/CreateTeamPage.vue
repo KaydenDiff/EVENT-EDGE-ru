@@ -77,7 +77,7 @@
 <script>
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'CreateTeam',
  props: {
@@ -136,7 +136,7 @@ formData.append('captain_id', this.userId);
 formData.append('status', this.form.status);
 
 const response = await axios.post(
-  'http://event-edge-su/api/teams/create',
+ `${baseUrl}/api/teams/create`,
   formData,
   { headers: { Authorization: `Bearer ${user.token}` } }
 );

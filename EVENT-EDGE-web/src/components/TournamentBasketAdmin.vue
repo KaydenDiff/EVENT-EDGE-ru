@@ -96,7 +96,7 @@ export default {
     async fetchBracket() {
       if (!this.selectedTournamentId) return;
       try {
-        const response = await axios.get(`http://event-edge-su/api/guest/tournaments/${this.selectedTournamentId}/basket`);
+        const response = await axios.get(`${baseUrl}/api/guest/tournaments/${this.selectedTournamentId}/basket`);
         console.log("Данные от API:", response.data);
         this.stages = this.createBracket(response.data);
         console.log("Обновлённые стадии:", this.stages);
@@ -104,6 +104,7 @@ export default {
         console.error("Ошибка загрузки сетки:", error);
       }
     },
+    
     createBracket(matches) {
       const stagesMap = {};
       const stageIdSet = new Set();
@@ -122,7 +123,7 @@ export default {
           winner_team_id: match.winner_team,
         });
       });
-
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
       const sortedStageIds = [...stageIdSet].sort((a, b) => a - b);
       const stagesArray = sortedStageIds.map(stage_id => ({
         stage_id,
@@ -163,7 +164,7 @@ export default {
     },
     async fetchTournamentData() {
   try {
-    const response = await axios.get(`http://event-edge-su/api/guest/tournaments/${this.selectedTournamentId}`);
+    const response = await axios.get(`${baseUrl}/api/guest/tournaments/${this.selectedTournamentId}`);
     
     // Получаем текущую стадию турнира из ответа
     const tournament = response.data;
@@ -185,6 +186,7 @@ export default {
     console.error("Ошибка при загрузке данных турнира", error);
   }
 },
+
 async saveResults() {
   try {
     console.log("Начинаем сохранение результатов...");
@@ -211,7 +213,7 @@ async saveResults() {
       return;
     }
 
-    await axios.post("http://event-edge-su/api/admin/basket/update", {
+    await axios.post(`${baseUrl}/api/admin/basket/update`, {
   matches: matches,  // Используем уже сформированный массив `matches`
 }, {
   headers: {
@@ -289,7 +291,7 @@ async createNextStageOnServer() {
     }
 
     const response = await axios.post(
-      "http://event-edge-su/api/admin/basket/create-stage",
+     `${baseUrl}/api/admin/basket/create-stage`,
       nextStageData,
       {
         headers: {
@@ -310,7 +312,7 @@ async createNextStageOnServer() {
 },
     async fetchTournaments() {
       try {
-        const response = await axios.get("http://event-edge-su/api/guest/tournaments");
+        const response = await axios.get(`${baseUrl}/api/guest/tournaments`);
         this.tournaments = response.data;
       } catch (error) {
         console.error("Ошибка загрузки турниров:", error);
@@ -326,7 +328,7 @@ async createNextStageOnServer() {
   
     for (const match of nextStageMatches) {
       const addMatchResponse = await axios.post(
-        "http://event-edge-su/api/admin/tournaments/add-match",
+       `${baseUrl}/api/admin/tournaments/add-match`,
         {
           tournament_id: this.selectedTournamentId,
           game_match_id: match.game_match_id, // ID матча

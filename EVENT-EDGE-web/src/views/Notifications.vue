@@ -67,7 +67,7 @@
 import axios from 'axios';
 import NotificationCard from '@/components/Notifications.vue';
 import { inject } from 'vue';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "NotificationsPage",
   components: {
@@ -163,7 +163,7 @@ export default {
         const user = JSON.parse(localStorage.getItem("user"));
         if (!user || !user.token) return;
         
-        const response = await axios.get(`http://event-edge-su/api/notifications?page=${this.page}`, {
+        const response = await axios.get(`${baseUrl}/api/notifications?page=${this.page}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
             "Content-Type": "application/json"
@@ -239,7 +239,7 @@ export default {
         }
         
         // Отправляем запрос на сервер (если API поддерживает удаление)
-        await axios.delete(`http://event-edge-su/api/user/notifications/${id}`, {
+        await axios.delete(`${baseUrl}/api/user/notifications/${id}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
             "Content-Type": "application/json"

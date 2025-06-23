@@ -69,6 +69,7 @@
 </template>
 
 <script>
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'EditTournament',
   data() {
@@ -131,7 +132,7 @@ export default {
   },
     async fetchTournament() {
       try {
-        const response = await fetch(`http://event-edge-su/api/guest/tournaments/${this.$route.params.id}`);
+        const response = await fetch(`${baseUrl}/api/guest/tournaments/${this.$route.params.id}`);
         if (!response.ok) {
           throw new Error('Ошибка загрузки турнира');
         }
@@ -168,8 +169,8 @@ export default {
     async fetchGamesAndStages() {
       try {
         const [gamesResponse, stagesResponse] = await Promise.all([
-          fetch('http://event-edge-su/api/guest/games'),
-          fetch('http://event-edge-su/api/guest/stages')
+          fetch(`${baseUrl}/api/guest/games`),
+          fetch(`${baseUrl}/api/guest/stages`)
         ]);
 
         if (!gamesResponse.ok || !stagesResponse.ok) {
@@ -218,7 +219,7 @@ export default {
       }
 
       try {
-        const response = await fetch(`http://event-edge-su/api/admin/tournaments/update/${this.tournament.id}`, {
+        const response = await fetch(`${baseUrl}/api/admin/tournaments/update/${this.tournament.id}`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${user.token}`

@@ -25,7 +25,7 @@
 
 <script>
 import BaseButton from '@/components/BaseButton.vue';
-
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "RegisterTournament",
   components: {
@@ -64,7 +64,7 @@ export default {
       }
 
       // Загружаем профиль пользователя
-      const response = await fetch('http://event-edge-su/api/my-profile', {
+      const response = await fetch(`${baseUrl}/api/my-profile`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token}`
@@ -102,7 +102,7 @@ export default {
         this.loading = false;
         return;
       }
-        const response = await fetch('http://event-edge-su/api/tournament/notify-registration', {
+        const response = await fetch(`${baseUrl}/api/tournament/notify-registration`, {
           method: 'POST',
           headers: {
           'Content-Type': 'application/json',

@@ -93,7 +93,7 @@ export default {
     const router = useRouter()
     const loading = ref(true)
     const error = ref(null)
-    
+       const baseUrl = import.meta.env.VITE_API_BASE_URL;
     const match = ref({
       tournament_id: '',
       team_1_id: '',
@@ -126,7 +126,7 @@ export default {
       try {
         loading.value = true
         error.value = null
-        const response = await axios.get(`http://event-edge-su/api/guest/game-matches/${route.params.id}`)
+        const response = await axios.get(`${baseUrl}/api/guest/game-matches/${route.params.id}`)
         const matchData = response.data
         
         // Format date for datetime-local input
@@ -168,8 +168,8 @@ export default {
         
         // Fetch tournaments and stages in parallel
         const [tournamentsResponse, stagesResponse] = await Promise.all([
-          axios.get('http://event-edge-su/api/guest/tournaments'),
-          axios.get('http://event-edge-su/api/guest/stages')
+          axios.get(`${baseUrl}/api/guest/tournaments`),
+          axios.get(`${baseUrl}/api/guest/stages`)
         ])
         
         tournaments.value = tournamentsResponse.data
@@ -220,7 +220,7 @@ export default {
         
         // Use POST method with admin endpoint
         await axios.post(
-          `http://event-edge-su/api/admin/game-matches/update/${route.params.id}`,
+        `${baseUrl}/api/admin/game-matches/update/${route.params.id}`,
           payload,
           {
             headers: {
